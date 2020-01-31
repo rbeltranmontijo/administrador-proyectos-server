@@ -9,7 +9,7 @@ exports.autenticarUsuario = async (req, res) => {
   if (!errores.isEmpty()) {
     return res.status(400).json({ errores: errores.array() });
   }
-
+  console.log(req.body);
   // Extraer el email y password
   const { email, password } = req.body;
 
