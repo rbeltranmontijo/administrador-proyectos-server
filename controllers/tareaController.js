@@ -82,8 +82,8 @@ exports.actualizarTarea = async (req, res) => {
 
     // Crear un objeto con la nuevo informacion
     const nuevaTarea = {};
-    if (nombre) nuevaTarea.nombre = nombre;
-    if (estado) nuevaTarea.estado = estado;
+    nuevaTarea.nombre = nombre;
+    nuevaTarea.estado = estado;
 
     //Guardar la tarea
     tarea = await Tarea.findOneAndUpdate({ _id: req.params.id }, nuevaTarea, {
@@ -100,7 +100,8 @@ exports.actualizarTarea = async (req, res) => {
 exports.eliminarTarea = async (req, res) => {
   try {
     // Extraer el proyecto y comprobar si existe
-    const { proyecto } = req.body;
+    console.log(req.query);
+    const { proyecto } = req.query;
 
     //Extraer proyecto
     let tarea = await Tarea.findById(req.params.id);
@@ -113,9 +114,9 @@ exports.eliminarTarea = async (req, res) => {
     let existeProyecto = await Proyecto.findById(proyecto);
 
     // REvisar si el proyecto actual pertenece al usuario autenticado
-    if (existeProyecto.creador.toString() !== req.usuario.id) {
-      return res.status(401).json("No autorizado");
-    }
+    // if (existeProyecto.creador.toString() !== req.usuario.id) {
+    //   return res.status(401).json("No autorizado");
+    // }
 
     // Eliminar
     await Tarea.findByIdAndRemove({ _id: req.params.id });
